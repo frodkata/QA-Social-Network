@@ -50,6 +50,24 @@ public class Controller {
         return ResponseEntity.ok(this.questionService.saveQuestion(question));
     }
 
+    //Post answer to question
+    @PostMapping("/{username}/{questionId}")
+    public ResponseEntity<String> addAnswer(@RequestBody String answer, @PathVariable(name = "username") String username, @PathVariable(name = "questionId") Long id) {
+        Question question = questionService.getQuestionById(id);
+
+        //Check if question exists
+        if(question==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        question.setAnswerBody(answer);
+        questionService.saveQuestion(question);
+
+
+
+        return ResponseEntity.ok(answer);
+    }
+
     @GetMapping("/{username}")
     public ResponseEntity<List<Question>> getQuestionList (@PathVariable(name = "username") String username){
         //Fetch all questions in DB linked to given username

@@ -9,7 +9,7 @@ import java.util.List;
 public interface QuestionService {
     List<Question> getAll();
     Question saveQuestion(Question question);
-    Question getQuestionById(Long id) throws Exception;
+    Question getQuestionById(Long id);
     List<Question> getAllByUsername(String username);
 
     void deleteQuestionById(Long id);

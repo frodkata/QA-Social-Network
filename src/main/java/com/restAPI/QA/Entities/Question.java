@@ -19,6 +19,8 @@ public class Question {
     //integer values 1 and 0 are used here
     private int isAnonymous;
 
+    private String answerBody;
+
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name="user_id", nullable=false)
@@ -73,5 +75,13 @@ public class Question {
 
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
+    }
+
+    public String getAnswerBody() {
+        return answerBody;
+    }
+
+    public void setAnswerBody(String answerBody) {
+        this.answerBody = answerBody;
     }
 }

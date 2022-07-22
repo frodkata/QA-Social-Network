@@ -27,15 +27,13 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question getQuestionById(Long id) throws Exception {
+    public Question getQuestionById(Long id){
         Optional<Question> optional = questionRepository.findById(id);
         Question question = null;
         if (optional.isPresent()) {
             question = optional.get();
-        } else {
-            throw new Exception("Question not found for id:" + id);
-
         }
+
         return question;
     }
 
