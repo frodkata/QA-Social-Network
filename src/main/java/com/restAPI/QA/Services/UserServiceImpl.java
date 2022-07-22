@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
 
-
+		//Assign role to user
 		//https://stackoverflow.com/questions/37615034/spring-security-spring-boot-how-to-set-roles-for-users
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		grantedAuthorities.add(new SimpleGrantedAuthority(userProfile.getRole().toString()));

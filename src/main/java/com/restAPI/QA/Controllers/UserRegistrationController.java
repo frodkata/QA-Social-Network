@@ -1,6 +1,7 @@
 package com.restAPI.QA.Controllers;
 
 import com.restAPI.QA.Entities.Role;
+import com.restAPI.QA.Entities.UserDTO;
 import com.restAPI.QA.Entities.UserProfile;
 import com.restAPI.QA.Repositories.UserRepository;
 import com.restAPI.QA.Services.UserService;
@@ -29,7 +30,7 @@ public class UserRegistrationController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> registerUser(@RequestBody UserProfile signUpDto){
+    public ResponseEntity<?> registerUser(@RequestBody UserDTO signUpDto){
 
         //Check if username exists in Database
         if(userRepository.existsByUsername(signUpDto.getUsername())){
@@ -49,19 +50,23 @@ public class UserRegistrationController {
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         user.setRole(Role.USER);
 
-
+        //Save created user to repo
         userRepository.save(user);
+
 
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
 
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody UserProfile loginDto){
+    public ResponseEntity<String> authenticateUser(@RequestBody UserDTO loginDto){
+
+        //Authenticate user
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(), loginDto.getPassword()));
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
         return new ResponseEntity<>("User signed-in successfully!.", HttpStatus.OK);
     }
 
