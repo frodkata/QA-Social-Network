@@ -4,6 +4,7 @@ import com.restAPI.QA.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -59,7 +60,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.csrf().disable()
 				.authorizeRequests()
 					//.antMatchers( "/api/user/**").hasRole("USER")
-					.antMatchers(  "/api/auth/registration", "/api/auth/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/api/user/**").permitAll()
+
+                .antMatchers(  "/api/auth/registration", "/api/auth/login").permitAll()
 					.antMatchers("/css/**", "/js/**", "/images/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
