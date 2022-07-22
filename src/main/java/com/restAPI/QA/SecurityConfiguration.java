@@ -58,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		//https://stackoverflow.com/questions/33673300/spring-security-java-configuration-for-authenticated-users-with-a-role
 		http.csrf().disable()
 				.authorizeRequests()
-					.antMatchers( "/api/user/**").hasRole("USER")
+					//.antMatchers( "/api/user/**").hasRole("USER")
 					.antMatchers(  "/api/auth/registration", "/api/auth/login").permitAll()
 					.antMatchers("/css/**", "/js/**", "/images/**").permitAll()
 				.anyRequest().authenticated()

@@ -1,7 +1,10 @@
 package com.restAPI.QA.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name =  "user_profile", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
@@ -12,13 +15,14 @@ public class UserProfile {
     private Long id;
 
     private String username;
-
     private String password;
-
     private String email;
-
-
     private Role role;
+
+    //https://www.baeldung.com/hibernate-one-to-many
+    @OneToMany(mappedBy="userProfile")
+    @JsonManagedReference
+    private List<Question> questionsList;
 
 
     public UserProfile() {
@@ -73,5 +77,11 @@ public class UserProfile {
         this.role = role;
     }
 
+    public List<Question> getQuestionsList() {
+        return questionsList;
+    }
 
+    public void setQuestionsList(List<Question> questionsList) {
+        this.questionsList = questionsList;
+    }
 }
