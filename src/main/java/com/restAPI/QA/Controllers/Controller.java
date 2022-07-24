@@ -63,12 +63,26 @@ public class Controller {
         question.setAnswerBody(answer);
         questionService.saveQuestion(question);
 
-
-
         return ResponseEntity.ok(answer);
     }
 
-    @GetMapping("/{username}")
+    @DeleteMapping("/{username}/{questionId}")
+    public ResponseEntity<String> deleteQuestion(@PathVariable(name = "username") String username, @PathVariable(name = "questionId") Long id) {
+        Question questionToDelete = questionService.getQuestionById(id);
+
+        //Ensure that the user cannot delete other user's questions
+        if(questionToDelete.getUserProfile().getUsername().equals(userService.getCurrentUser().getUsername()) ){
+            questionService.deleteQuestionById(id);
+            return ResponseEntity.ok("Question Deleted!");
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
+
+
+        @GetMapping("/{username}")
     public ResponseEntity<List<Question>> getQuestionList (@PathVariable(name = "username") String username){
         //Fetch all questions in DB linked to given username
         return ResponseEntity.ok(this.questionService.getAllByUsername(username));
