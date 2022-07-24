@@ -55,15 +55,24 @@ public class Controller {
     public ResponseEntity<String> addAnswer(@RequestBody String answer, @PathVariable(name = "username") String username, @PathVariable(name = "questionId") Long id) {
         Question question = questionService.getQuestionById(id);
 
-        //Check if question exists
-        if(question==null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        //Ensure that the user answers only his questions
+        if(question.getUserProfile().getUsername().equals(userService.getCurrentUser().getUsername()) ){
+
+            //Check if question exists
+            if(question==null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            question.setAnswerBody(answer);
+            questionService.saveQuestion(question);
+
+            return ResponseEntity.ok("Answer posted!");
+
         }
 
-        question.setAnswerBody(answer);
-        questionService.saveQuestion(question);
 
-        return ResponseEntity.ok(answer);
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{username}/{questionId}")
