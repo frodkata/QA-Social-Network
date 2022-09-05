@@ -85,7 +85,7 @@ Only logged in users can ask eachother questions. Users can also choose to remai
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `questionBody` | `string` | **Required**. Question body|
-| `isAnonymous` | `string` | **Required**. [1 or 0] Hide or display username|
+| `isAnonymous` | `int` | **Required**. [1 or 0] Hide or display username|
 
 
 Sample body:
